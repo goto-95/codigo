@@ -207,10 +207,10 @@ mob = 1j*alfa.*omega;
 %Inertance
 inert = -alfa.*(omega.^2);
 
-% figure
-% plot(freq,20*log10(abs(alfa)),'LineWidth',2)
+figure
+plot(freq,20*log10(abs(alfa)),'LineWidth',2)
 
-% save('inert','inert')
+save('inert','inert')
 %% Graphs
 % figure
 % plot(freq,20*log10(abs(alfa)))
@@ -291,7 +291,7 @@ set(gca,...
 'FontUnits','points',...
 'FontWeight','normal',...
 'FontSize',12, 'FontName','Times')
-xlim([100,1000])
+xlim([100,400])
 grid on
 print -depsc2 inert_1res_mr05.eps
 

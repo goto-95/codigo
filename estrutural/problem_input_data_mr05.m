@@ -45,8 +45,10 @@ fmax = 1000;
 
 %% Nodes of interest
 
-node_force = 190; %node where the force is applied.
+node_force = 190; %node where the force is applied. 
+% node_force = 211;
 node_obs = 336; % response node
+% node_obs = 231;
 
 %% Force amplitude
 F0 =1;
