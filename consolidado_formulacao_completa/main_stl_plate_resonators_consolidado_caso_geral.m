@@ -35,14 +35,16 @@ tic
 %same frequency vector as reference
 fmin = 50; %[Hz]
 fmax = 5000; %[Hz]
+df = 5;
 
-freq = logspace(log10(fmin),log10(fmax),1e4);
+% freq = logspace(log10(fmin),log10(fmax),1e4);
+freq = fmin:df:fmax;
 omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =8;
-nel_y =8;
+nel_x =4;
+nel_y =4;
 
 % Other fixed parameters
 
@@ -240,7 +242,7 @@ for i=1:nfreq
     
     %Appling correction to FEXt 2 - Equation 3 deduction Giovanna
     M=n_index*m_index;
-    Fext2=(-P_inc-(P_inc*k*cos(theta)/M)*s_pinc)*Fext2;
+    Fext2 = 2*(-P_inc-(P_inc*k*cos(theta)/M)*s_pinc)*Fext2;
     
     % end Part 8
 
@@ -401,7 +403,7 @@ end
 
 figure
 W1_mn_interest = W1_mn_store(:,:,57);
-max_W1_mn = W1_mn_interest(5,5);
+max_W1_mn = W1_mn_interest(7,7);
 heatmap(m,n,log10(abs(real(W1_mn_interest./max_W1_mn))))
 title('Normalized values of harmonics for a given frequency')
 
@@ -513,9 +515,9 @@ title('Normalized values of harmonics for a given frequency')
 %% STL and pltae displacement(with fluid loading) graphs
 
 %Part 13 - STL calculation
- STL = -10*log10(tau_total);
+STL = -10*log10(tau_total);
 
- save('STL','STL')
+% save('STL','STL')
 
 %To be compared with figure 6b of the paper
 figure
@@ -530,7 +532,7 @@ legend('Displacement - WFE','Displacement - Reference - \phi=0, \theta = 50 ')
 
 grid on
 
- saveas(gcf,'displacement.jpg')
+% saveas(gcf,'displacement.jpg')
 
 %To be compared with figure 10 of the paper
 figure
