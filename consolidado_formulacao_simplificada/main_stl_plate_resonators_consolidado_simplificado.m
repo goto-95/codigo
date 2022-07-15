@@ -36,7 +36,8 @@ tic
 fmin = 50; %[Hz]
 fmax = 5000; %[Hz]
 
-freq = logspace(log10(fmin),log10(fmax),1e4);
+% freq = logspace(log10(fmin),log10(fmax),1e4);
+freq = fmin:10:fmax;
 omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
