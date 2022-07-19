@@ -35,8 +35,10 @@ tic
 %same frequency vector as reference
 fmin = 50; %[Hz]
 fmax = 5000; %[Hz]
+df = 10;
 
-freq = logspace(log10(fmin),log10(fmax),1e4);
+% freq = logspace(log10(fmin),log10(fmax),1e4);
+freq = fmin:df:fmax;
 omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
@@ -239,8 +241,8 @@ for i=1:nfreq
 
     
     %Appling correction to FEXt 2 - Equation 3 deduction Giovanna
-    M=n_index*m_index;
-    Fext2=(-P_inc-(P_inc*k*cos(theta)/M)*s_pinc)*Fext2;
+%     M=n_index*m_index;
+    Fext2=-2*P_inc*Fext2;
     
     % end Part 8
 
@@ -401,7 +403,8 @@ end
 
 figure
 W1_mn_interest = W1_mn_store(:,:,57);
-max_W1_mn = W1_mn_interest(5,5);
+% max_W1_mn = W1_mn_interest(5,5);
+max_W1_mn = max(max(W1_mn_interest));
 heatmap(m,n,log10(abs(real(W1_mn_interest./max_W1_mn))))
 title('Normalized values of harmonics for a given frequency')
 
