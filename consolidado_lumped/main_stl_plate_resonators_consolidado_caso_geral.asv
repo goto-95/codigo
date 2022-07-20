@@ -99,11 +99,11 @@ subprogram_partitioningdofs
 % FREQUENCY LOOP - FRF(vacuum), DISPLACEMENT (fluid loading included) AND STL ANALYSIS %%%%%%%%
 
 %% Part 5 - FRF calculation, material in vaccum
-% subprogram_frf_for_validation_optional
+%subprogram_frf_for_validation_optional
 % end Part 5
 
-% Definitions for calculation of the wavenumbers
-% Equation 8
+%% Definitions for calculation of the wavenumbers
+%Equation 8
 
 % index for summation of harmonic components
 m_index = nm;
@@ -118,7 +118,7 @@ kx_aux_f = @(mu_x,m,Lx,m_index,n_index)(ones(m_index,n_index)*mu_x+2*MM*pi)/Lx;
 ky_aux_f = @(mu_y,n,Ly,m_index,n_index)(ones(m_index,n_index)*mu_y+2*NN*pi)/Ly;
 k_matricial_f= @(k,m_index,n_index) k*ones(m_index,n_index);
         
-% Wavenumber - Paper - Equation  
+%Wavenumber - Paper - Equation  
 f_kz = @(k_matricial,kx_aux,ky_aux) -(1j)*sqrt(kx_aux.^2+ky_aux.^2-k_matricial.^2);
 
 %teste 2 - numero de onda
@@ -129,11 +129,11 @@ f_kz = @(k_matricial,kx_aux,ky_aux) -(1j)*sqrt(kx_aux.^2+ky_aux.^2-k_matricial.^
 %  f_kz = @(k_matricial,kx_aux,ky_aux) sqrt(k_matricial.^2-kx_aux.^2-ky_aux.^2).*(k_matricial.^2-kx_aux.^2-ky_aux.^2 >= 0)+...
 %   (-1j)*sqrt(kx_aux.^2-ky_aux.^2-k_matricial.^2).*(k_matricial.^2-kx_aux.^2-ky_aux.^2 < 0);  
   
-% Initializating variables for STL and displacements
+%% Initializating variables for STL and displacements
 tau_total = zeros(nfreq,1);
 disp = zeros(nfreq,1);
 
-% Saving wavenumbers vector and matrices to analyze their behavior in plots
+%Saving wavenumbers vector and matrices to analyze their behavior in plots
 kx_p = zeros(1,nfreq);
 ky_p = zeros(1,nfreq);
 kx_aux_p = zeros(nfreq,m_index,n_index);
@@ -230,16 +230,17 @@ for i=1:nfreq
 
     %Based on equations 25,26 and 28 using shape functions
     [Df,V_store_H] = force_fluid_lumped(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-     dof, Df1mn,Df2mn,kx_aux,ky_aux,A_element);
+     dof, Df1mn,kx_aux,ky_aux,A_element);
 
     %Adding fluid effects to dynamic stiffness matrix
+
     %Until this point the index of D is in the original order - matrices K, M
     %Equation 32
     D_til = D+(1/(Lx*Ly))*Df;
 
     %end Part 8
 
-    %% Part 9 - WFE Model - Applying periodical conditions and the equilibrium
+    % Part 9 - WFE Model - Applying periodical conditions and the equilibrium
     % of forces at the boundary of the periodic cell
 
     %Separating internal and boundary dofs
@@ -251,19 +252,20 @@ for i=1:nfreq
     D_til_ib= D_til(dofs_i,dofs_b);
     D_til_ii= D_til(dofs_i,dofs_i);
 
-    % Partitioning external force (Acoustic)
+    %Partitioning external force (Acoustic)
     Fext_b = Fext2(dofs_b);
     Fext_i = Fext2(dofs_i);
 
 
-    % Wave propagation constants - equation 36
+    %Wave propagation constants - equation 36
     lambda_x = exp(-1j*mu_x);
     lambda_y = exp(-1j*mu_y);
 
     % fat - number of nodes at the lateral of the cell, excluding the corners
     fat = Ngrid-2; 
 
-    % The Lambda_R matrix in the article contains typography errors - Equation 38
+    %The Lambda_R matrix in the article contains typography errors - Equation
+    %38
     %Matriz Giovanna 
     Lambda_R = [         eye(dof,dof), zeros(dof,fat*dof), zeros(dof,fat*dof);...
             lambda_x*eye(dof,dof), zeros(dof,fat*dof), zeros(dof,fat*dof);...
@@ -286,8 +288,11 @@ for i=1:nfreq
     nc = dof + 2*fat*dof;
 
     % Swicth between Not condensed problem and condensed problem
-    % wfeproblemnotcondensed
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %wfeproblemnotcondensed
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
     wfeproblemdynamiccondensed
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %Changing to the order of the original FE problem
     q_total = zeros(GDof+numberRes,1);
@@ -298,10 +303,12 @@ for i=1:nfreq
 
 
     %% Part 10 - Spatial harmonics amplitude calculation
-    
+
     % Calculation of the amplitudes of the harmonics
-    % Equation 28 and 29
+    %Equation 28 and 29
     W1_mn= zeros(m_index,n_index);
+
+
     for ii =1:m_index
         for jj = 1:n_index
             v_aux = V_store_H(:,ii,jj);
@@ -317,10 +324,13 @@ for i=1:nfreq
     W2_mn = W1_mn; %same degrees of freedom on the two sides of the plate
     W1_mn_store(:,:,i)=W1_mn;
 
-    % Amplitude of the sound pressure harmonics
-    % Equation 9
+    %Amplitude of the sound pressure harmonics
+    %Equation 9
     P1_mn = Df1mn.*W1_mn;
     P2_mn =  Df2mn.*W2_mn;
+
+
+    %end Part 10
 
 
     %% Part 11 -Displacement calculation - Summation of harmonics components

@@ -48,15 +48,10 @@ el_side_y = Ly/nel_y;
 % SPACE HARMONICS
 
 %index of harmonics
-m= -4:1:4;
-n=-4:1:4;
-%
+N = 5;
+m = -N:1:N;
+n = -N:1:N;
 [MM,NN]=meshgrid(m,n);
 
 nm = length(m);
 nn = length(n);
-
-%NUMERICAL INTEGRATION
-% Gauss points for numerical integration
-csi_aux = [-1/sqrt(3),1/sqrt(3)];
-eta_aux = [-1/sqrt(3),1/sqrt(3)];
