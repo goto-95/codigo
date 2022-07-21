@@ -230,8 +230,15 @@ for i=1:nfreq
     % Summation for harmonic components to calculate Df - Equation 33
 
     % Based on equations 25,26 and 28 using shape functions
-    [Df,V_store_H,s_pinc] = force_fluid(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux,kz2mn);
+    tic
+    [Df,V_store_H] = force_fluid(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
+    toc;
+    
+    tic
+    [Df,V_store_H] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
+    toc;
 
     % Adding fluid effects to dynamic stiffness matrix
 
