@@ -34,8 +34,8 @@ tic
 
 %same frequency vector as reference
 fmin = 50; %[Hz]
-fmax = 5000; %[Hz]
-df = 10;
+fmax = 6000; %[Hz]
+df = 5;
 
 % freq = logspace(log10(fmin),log10(fmax),1e4);
 freq = fmin:df:fmax;
@@ -43,8 +43,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =8;
-nel_y =8;
+nel_x =16;
+nel_y =16;
 
 % Other fixed parameters
 
