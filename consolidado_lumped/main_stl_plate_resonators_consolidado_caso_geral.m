@@ -202,8 +202,8 @@ for i=1:nfreq
     rho1=rho0;
     rho2=rho0;
     %Equation 10
-    Df1mn = (-1j*rho1*w^2)./(kz1mn);
-    Df2mn = (-1j*rho2*w^2)./(kz2mn); 
+    Df1mn = (1j*rho1*w^2)./(kz1mn);
+    Df2mn = (1j*rho2*w^2)./(kz2mn); 
 
     % end Part 6
 
@@ -319,7 +319,7 @@ for i=1:nfreq
 
     % Amplitude of the sound pressure harmonics
     % Equation 9
-    P1_mn = Df1mn.*W1_mn;
+    P1_mn = -Df1mn.*W1_mn;
     P2_mn =  Df2mn.*W2_mn;
 
 
