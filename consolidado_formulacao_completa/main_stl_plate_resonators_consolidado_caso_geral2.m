@@ -231,13 +231,13 @@ for i=1:nfreq
 
     % Based on equations 25,26 and 28 using shape functions
 %     tic
-    [Df,V_store_H] = force_fluid(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
+%     [Df,V_store_H] = force_fluid(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+%     csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
 %     toc;
     
 %     tic
-%     [Df,V_store_H] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-%     csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
+    [Df,V_store_H] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
 %     toc;
 
     % Adding fluid effects to dynamic stiffness matrix
