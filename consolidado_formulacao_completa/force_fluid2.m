@@ -31,9 +31,9 @@ for uu = 1:nelem
     for cc =1:length(csi_aux)
         for dd =1:length(eta_aux)
             %Equation 26
-            csi2 = csi_aux(cc);
-            eta2 = eta_aux(dd);
-            [N2,detJ2]= Quad(csi2,eta2,xcoord2,ycoord2);
+            csi2 = csi_aux(:);
+            eta2 = eta_aux(:);
+            [N2,detJ2]= Quad2(csi2,eta2,xcoord2,ycoord2);
             x2 = N2.'*xcoord2;
             y2 = N2.'*ycoord2;
 
