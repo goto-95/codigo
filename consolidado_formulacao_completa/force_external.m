@@ -31,9 +31,7 @@ for jj=1:nelem
         end
     end
     
-    
     Fext(index) = Fext(index)+fe;
-    
 end
  
 end

@@ -1,6 +1,7 @@
-function [Df,V_store_H] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-    csi_aux,eta_aux,wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux)
+function [Df,V_store_H,Fext] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+    csi_aux,eta_aux,wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux, kx,ky)
 
+%kx,ky
 %V_store_H: 3D Matrix: 
 % lines: nodes
 % columns: harmonics in x (m_index)
@@ -15,6 +16,7 @@ Df=zeros(GDof+numberRes,GDof+numberRes); %start summation
 % Fluid forces calculated only for displacement degrees of freedom        
 Ffluid = zeros(m_index,n_index,nnode);
 Ffluid_H = zeros(m_index,n_index,nnode);
+Fext=zeros(nnode,1);
           
 for uu = 1:nelem
     %Identifying the nodes of the element 
@@ -27,12 +29,13 @@ for uu = 1:nelem
     %numerical integration   
     no_1 = 0; no_2 = 0; no_3 = 0; no_4 = 0;
     no_1_H = 0; no_2_H = 0; no_3_H = 0; no_4_H = 0;
-
+    fe=zeros(4,1); % for external force
+    
     for cc =1:length(csi_aux)
         for dd =1:length(eta_aux)
             %Equation 26
-            csi2 = csi_aux(:);
-            eta2 = eta_aux(:);
+            csi2 = csi_aux(cc);
+            eta2 = eta_aux(dd);
             [N2,detJ2]= Quad2(csi2,eta2,xcoord2,ycoord2);
             x2 = N2.'*xcoord2;
             y2 = N2.'*ycoord2;
@@ -51,6 +54,9 @@ for uu = 1:nelem
             no_2_H = aux_N2(2,1)*exp(+1j*((kx_aux*x2)+(ky_aux*y2)))*detJ2 + no_2_H;
             no_3_H = aux_N2(3,1)*exp(+1j*((kx_aux*x2)+(ky_aux*y2)))*detJ2 + no_3_H;
             no_4_H = aux_N2(4,1)*exp(+1j*((kx_aux*x2)+(ky_aux*y2)))*detJ2 + no_4_H;
+            
+            % Computing the external force
+            fe = aux_N2*exp(-1j*(kx*x2+ky*y2))*detJ2 + fe;
         end
     end 
 
@@ -63,21 +69,14 @@ for uu = 1:nelem
     Ffluid_H(:,:,index2(2)) = Ffluid_H(:,:, index2(2)) + no_2_H;
     Ffluid_H(:,:,index2(3)) = Ffluid_H(:,:, index2(3)) + no_3_H;
     Ffluid_H(:,:,index2(4)) = Ffluid_H(:,:, index2(4)) + no_4_H;
+    
+    Fext(index2) = Fext(index2)+fe;
 end
             
 for kk = 1:m_index
     for ll =1:n_index
         v1_mn=zeros(GDof+numberRes,1);
         v1_mn_H = zeros(GDof+numberRes,1);
-        
-%         % adiantando a multiplicação 2*Df1mn*vmn
-%         Ffluid = 2*Df1mn.*Ffluid;    
-%             
-% %         Fluid_test_aux = sum(sum(Ffluid));
-% %         Fluid_test_H_aux = sum(sum(Ffluid_H));
-%         
-%         Ffluid(:) = Fluid_test_aux;
-%         Ffluid_H(:) = Fluid_test_H_aux;
         
         %adding rotation degrees of freedom
         v1_mn(1:dof:GDof) = Ffluid(kk,ll,:);

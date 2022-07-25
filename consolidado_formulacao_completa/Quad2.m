@@ -15,21 +15,21 @@ N= [0.25*(1-csi).*(1-eta);
             (1+csi);
             (1-csi)];
         
-%  B= [dcsi.';deta.'];  
-%  
-%  jac= B*[ xcoord, ycoord];
+ B= [dcsi.';deta.'];  
+ 
+ jac= B*[ xcoord, ycoord];
          
       
- jac = zeros(2,2);
- N = zeros(4,length(csi)*length(eta));
-for i=1:4
-    N(:,1) = [ 0.25*(1-csi()).*(1-eta());
-               0.25*(1+csi()).*(1-eta());
-               0.25*(1+csi()).*(1+eta());
-               0.25*(1-csi()).*(1+eta())];
+%  jac = zeros(2,2);
+%  N = zeros(4,length(csi)*length(eta));
+% for i=1:4
+%     N(:,1) = [ 0.25*(1-csi()).*(1-eta());
+%                0.25*(1+csi()).*(1-eta());
+%                0.25*(1+csi()).*(1+eta());
+%                0.25*(1-csi()).*(1+eta())];
 
-    jac = jac + [dcsi(i); deta(i)]*[xcoord(i),ycoord(i)];
-end     
+%     jac = jac + [dcsi(i); deta(i)]*[xcoord(i),ycoord(i)];
+% end     
       
       
  detJ = det(jac);

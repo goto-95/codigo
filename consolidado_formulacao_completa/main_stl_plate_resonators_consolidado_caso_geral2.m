@@ -43,8 +43,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =16;
-nel_y =16;
+nel_x =8;
+nel_y =8;
 
 % Other fixed parameters
 
@@ -216,10 +216,10 @@ for i=1:nfreq
     % Vector of external forces  calculated only for
     % displacement degrees of freedom
     % Equation 18/19, but using shape functions
-    alpha = force_external(nnode,nelem,elem,nodes,csi_aux,eta_aux,wcsi_aux,weta_aux,kx,ky);
+%     alpha = force_external(nnode,nelem,elem,nodes,csi_aux,eta_aux,wcsi_aux,weta_aux,kx,ky);
 
-    % Adding rotational degrees of freedom
-    Fext2(1:3:GDof)= alpha;
+%     % Adding rotational degrees of freedom
+%     Fext2(1:3:GDof)= alpha;
     
     % end Part 7
 
@@ -236,10 +236,13 @@ for i=1:nfreq
 %     toc;
     
 %     tic
-    [Df,V_store_H] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux);
+    [Df,V_store_H,alpha] = force_fluid2(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+    csi_aux,eta_aux, wcsi_aux, weta_aux, dof, Df1mn,kx_aux,ky_aux,kx,ky);
 %     toc;
-
+    
+    % Adding rotational degrees of freedom
+    Fext2(1:3:GDof)= alpha;
+    
     % Adding fluid effects to dynamic stiffness matrix
 
     % Until this point the index of D is in the original order - matrices K, M
