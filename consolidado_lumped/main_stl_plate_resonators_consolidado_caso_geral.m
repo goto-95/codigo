@@ -215,10 +215,10 @@ for i=1:nfreq
     % Vector of external forces  calculated only for
     % displacement degrees of freedom
     %Equation 18/19, but using shape functions
-    Fext = force_external_lumped(nnode,nelem,elem,nodes,P_inc,kx,ky,A_element);
+%     Fext = force_external_lumped(nnode,nelem,elem,nodes,P_inc,kx,ky,A_element);
 
-    %Adding rotational degrees of freedom
-    Fext2(1:3:GDof)= 2*Fext;
+%     %Adding rotational degrees of freedom
+%     Fext2(1:3:GDof)= 2*Fext;
 
     % end Part 7
 
@@ -229,9 +229,15 @@ for i=1:nfreq
     %Summation for harmonic components to calculate Df - Equation 33
 
     %Based on equations 25,26 and 28 using shape functions
-    [Df,V_store_H] = force_fluid_lumped(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
-     dof, Df1mn,Df2mn,kx_aux,ky_aux,A_element);
-
+%     [Df,V_store_H] = force_fluid_lumped(GDof, numberRes,m_index,n_index,nnode,nelem,elem,nodes,...
+%      dof, Df1mn,Df2mn,kx_aux,ky_aux,A_element);
+    
+    [Df,V_store_H,Fext] = force_fluid_lumped2(GDof,numberRes,m_index,n_index,nnode,nelem,...
+    elem,nodes,dof, Df1mn,kx_aux,ky_aux,kx,ky,A_element);
+    
+    %Adding rotational degrees of freedom
+    Fext2(1:3:GDof)= 2*P_inc*Fext;
+    
     %Adding fluid effects to dynamic stiffness matrix
     %Until this point the index of D is in the original order - matrices K, M
     %Equation 32

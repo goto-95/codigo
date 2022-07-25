@@ -9,7 +9,7 @@ V_store_H =zeros(nnode,m_index,n_index);
 %Df - fluid loading to be added at Dynamic stiffness matrix
 Df=zeros(GDof+numberRes,GDof+numberRes); %start summation
 
- for kk = 1:m_index
+for kk = 1:m_index
   for ll =1:n_index
           
           kx_aux_aux = kx_aux(kk,ll);

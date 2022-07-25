@@ -543,7 +543,7 @@ legend('Displacement - WFE','Displacement - Reference - \phi=0, \theta = 50 ')
 
 grid on
 
- saveas(gcf,'displacement.jpg')
+% saveas(gcf,'displacement.jpg')
 
 %To be compared with figure 10 of the paper
 figure
