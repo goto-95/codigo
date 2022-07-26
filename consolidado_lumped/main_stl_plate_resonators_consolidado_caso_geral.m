@@ -325,8 +325,8 @@ for i=1:nfreq
 
     % Amplitude of the sound pressure harmonics
     % Equation 9
-    P1_mn = -Df1mn.*W1_mn;
-    P2_mn =  Df2mn.*W2_mn;
+    P1_mn = Df1mn.*W1_mn;
+    P2_mn =  -Df2mn.*W2_mn./exp(-1j*kz2mn*h);
 
 
     %% Part 11 -Displacement calculation - Summation of harmonics components
