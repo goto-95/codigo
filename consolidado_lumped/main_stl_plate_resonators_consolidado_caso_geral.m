@@ -512,7 +512,7 @@ heatmap(m,n,log10(abs(W1_mn_interest./max_W1_mn)))
 %Part 13 - STL calculation
  STL = -10*log10(tau_total);
 
-save('STL','STL')
+% save('STL','STL')
 
 %To be compared with figure 6b of the paper
 figure
