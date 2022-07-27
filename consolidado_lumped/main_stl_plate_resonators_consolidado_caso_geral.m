@@ -394,7 +394,11 @@ end
 % title('Absolute values of harmonics for a given frequency')
 
 figure
-W1_mn_interest = W1_mn_store(:,:,57);
+ind = 57; % 330 Hz  
+% ind = 136; % 725Hz
+% ind = 210 % 1095Hz
+% ind = 283; % 1460 Hz
+W1_mn_interest = W1_mn_store(:,:,ind);
 max_W1_mn=max(max(W1_mn_interest));
 heatmap(m,n,log10(abs(W1_mn_interest./max_W1_mn)))
 
