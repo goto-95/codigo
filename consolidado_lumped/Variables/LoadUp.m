@@ -29,7 +29,7 @@ w_20 = load('w_20x20.mat'); w_20 = w_20.disp;
 w_24 = load('w_24x24.mat'); w_24 = w_24.disp;
 
 % STL
-STL_2 = load('STL_2x2.mat'); STL_2 = STL_2.disp;
+STL_2 = load('STL_2x2.mat'); STL_2 = STL_2.STL;
 STL_4 = load('STL_4x4.mat'); STL_4 = STL_4.STL;
 STL_8 = load('STL_8x8.mat'); STL_8 = STL_8.STL;
 STL_12 = load('STL_12x12.mat'); STL_12 = STL_12.STL;
