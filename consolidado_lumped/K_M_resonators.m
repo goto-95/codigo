@@ -13,7 +13,7 @@ function [K_new, M_new, numberRes] = K_M_resonators(KG,MG,node_res_first,dof,GDo
 %dof: number of dofs per node
 %GDof: number of dofs in the strucuture
 
-numberRes = 1;
+numberRes = length(kr);
 %lr = length(node_res_first);
 
 node_res = node_res_first;
@@ -39,17 +39,15 @@ M_new(1:GDof, 1: GDof) = MG;
 
 % inserting data from spring-mass system
 for rr=1:numberRes
-K_new(z_dof_res(rr),z_dof_res(rr)) = K_new(z_dof_res(rr),z_dof_res(rr))+kr;
+    K_new(z_dof_res(rr),z_dof_res(rr)) = K_new(z_dof_res(rr),z_dof_res(rr))+kr(rr);
 
-K_new(z_dof_res(rr),dof_res(rr)) = K_new(z_dof_res(rr),dof_res(rr)) - kr;
+    K_new(z_dof_res(rr),dof_res(rr)) = K_new(z_dof_res(rr),dof_res(rr)) - kr(rr);
 
-K_new(dof_res(rr),z_dof_res(rr)) = K_new(dof_res(rr),z_dof_res(rr))-kr;
+    K_new(dof_res(rr),z_dof_res(rr)) = K_new(dof_res(rr),z_dof_res(rr))-kr(rr);
 
-K_new(dof_res(rr),dof_res(rr)) = K_new(dof_res(rr),dof_res(rr))+kr;
-
-
-M_new(dof_res(rr),dof_res(rr)) = M_new(dof_res(rr),dof_res(rr))+mr;
-
+    K_new(dof_res(rr),dof_res(rr)) = K_new(dof_res(rr),dof_res(rr))+kr(rr);
+    
+    M_new(dof_res(rr),dof_res(rr)) = M_new(dof_res(rr),dof_res(rr))+mr(rr);
 
 end
 

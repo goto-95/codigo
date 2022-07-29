@@ -35,8 +35,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =24;
-nel_y =24;
+nel_x =4;
+nel_y =4;
 
 % Other fixed parameters
 
@@ -76,9 +76,22 @@ kircchoff_model
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Updating K and M with resonators
-[~,node_res_first]=min(sqrt(nodes(:,1).^2)+nodes(:,2).^2);
+% 1 resonator case
+% [~,node_res_first]=min(sqrt(nodes(:,1).^2)+nodes(:,2).^2);
+
+% 4 resonators case
+%Nodes at 1/4 of the unit cell
+[node_res1, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==-Lx/4);
+[node_res2, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==-Lx/4);
+[node_res3, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==Lx/4);
+[node_res4, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==Lx/4);
+
+
+node_res_first =[node_res1,node_res2,node_res3,node_res4];
+
 %center node, where the resonator is attached
 [K_new, M_new, numberRes] = K_M_resonators(KG,MG,node_res_first,dof,GDof,kr,mr);
+
 
 %Subprogram for partitioning boundary and internal dofs
 subprogram_partitioningdofs
@@ -521,14 +534,14 @@ heatmap(m,n,log10(abs(W1_mn_interest./max_W1_mn)))
 %To be compared with figure 6b of the paper
 figure
 load f 
-load uz_damp
+% load uz_ref
+load uz_ref_4res
 loglog(freq,abs(disp),f,abs(uz_damp))
 title('Displacement at the center of the metamaterial plate')
 xlabel('Frequency [Hz]')
 ylabel('w [m]')
 legend('Displacement - WFE','Displacement - Reference - \phi=0, \theta = 50 ')
 %axis([fmin,fmax,1*10-6,1*10-4])
-
 grid on
 
 % saveas(gcf,'displacement.jpg')
@@ -537,8 +550,10 @@ grid on
 figure
 semilogx(freq,STL)
 hold on
-load f_ref 
-load STL_ref
+% load f_ref_ 
+% load STL_ref
+load f_ref_4res
+load STL_ref_4res
 semilogx(f,STL_damp)
 title('Sound Transmission Loss for a Metamaterial')
 legend('STL - WFE','Reference - \phi=0, \theta = 50 ')
