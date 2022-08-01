@@ -158,7 +158,7 @@ kzmn_p = zeros(nfreq,m_index,n_index);
 W1_mn_store= zeros(m_index,n_index,nfreq);
 
 % Begin frequency loop
-for i=1:nfreq
+parfor i=1:nfreq
 
     A1 = freq(i);   
     formatSpec = ' \n Frequency =%4.2f Hz \n';
@@ -200,8 +200,8 @@ for i=1:nfreq
     ky_aux=ky_aux_f(mu_y,n,Ly,m_index,n_index);
 
     %store wavenumbers to plot
-    kx_aux_p(i,:,:) = kx_aux;
-    ky_aux_p(i,:,:) = ky_aux;
+%     kx_aux_p(i,:,:) = kx_aux;
+%     ky_aux_p(i,:,:) = ky_aux;
 
     %Calling wavenumber function to calculate kz1mn
     k_matricial= k_matricial_f(k,m_index,n_index);
@@ -249,7 +249,7 @@ for i=1:nfreq
     elem,nodes,dof, Df1mn,kx_aux,ky_aux,kx,ky,A_element);
     
     %Adding rotational degrees of freedom
-    Fext2(1:3:GDof)= 2*P_inc*Fext;
+    Fext2(1:3:GDof)= -2*P_inc*Fext;
     
     %Adding fluid effects to dynamic stiffness matrix
     %Until this point the index of D is in the original order - matrices K, M
@@ -306,7 +306,26 @@ for i=1:nfreq
 
     % Swicth between Not condensed problem and condensed problem
     % wfeproblemnotcondensed
-    wfeproblemdynamiccondensed
+%     wfeproblemdynamiccondensed
+    D_r_til = D_til_bb-D_til_bi*(D_til_ii\D_til_ib);
+    F_r_til = Fext_b - (D_til_bi/D_til_ii)*Fext_i;
+
+    %Equation 43
+    D_t = Lambda_L*D_r_til*Lambda_R;
+    e_t = Lambda_L*F_r_til;
+
+    %Solving - Equation 42
+
+    Sol = D_t\e_t;
+
+    %q = [qc,qi]
+    % the order here is (q1,q2,q3,q4,ql,qb,qr,qt)
+    %Equation 38
+    q_bound = Lambda_R*Sol;
+
+    %Recovering internal nodes
+    %Equation 
+    q_internal = (D_til_ii\Fext_i) -  (D_til_ii\D_til_ib)*q_bound;
 
     %Changing to the order of the original FE problem
     q_total = zeros(GDof+numberRes,1);
@@ -354,7 +373,8 @@ for i=1:nfreq
     disps_mn = W1_mn.* aux_disp;
 
     %summation
-    disp(i) = sum(sum(disps_mn,2));
+    aux = sum(sum(disps_mn,2));
+    disp(i) = aux;
 
     % end Part 11
 

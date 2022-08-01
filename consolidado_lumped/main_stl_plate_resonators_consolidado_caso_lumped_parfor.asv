@@ -158,7 +158,7 @@ kzmn_p = zeros(nfreq,m_index,n_index);
 W1_mn_store= zeros(m_index,n_index,nfreq);
 
 % Begin frequency loop
-for i=1:nfreq
+parfor i=1:nfreq
 
     A1 = freq(i);   
     formatSpec = ' \n Frequency =%4.2f Hz \n';
@@ -200,8 +200,8 @@ for i=1:nfreq
     ky_aux=ky_aux_f(mu_y,n,Ly,m_index,n_index);
 
     %store wavenumbers to plot
-    kx_aux_p(i,:,:) = kx_aux;
-    ky_aux_p(i,:,:) = ky_aux;
+%     kx_aux_p(i,:,:) = kx_aux;
+%     ky_aux_p(i,:,:) = ky_aux;
 
     %Calling wavenumber function to calculate kz1mn
     k_matricial= k_matricial_f(k,m_index,n_index);
@@ -249,7 +249,7 @@ for i=1:nfreq
     elem,nodes,dof, Df1mn,kx_aux,ky_aux,kx,ky,A_element);
     
     %Adding rotational degrees of freedom
-    Fext2(1:3:GDof)= 2*P_inc*Fext;
+    Fext2(1:3:GDof)= -2*P_inc*Fext;
     
     %Adding fluid effects to dynamic stiffness matrix
     %Until this point the index of D is in the original order - matrices K, M
