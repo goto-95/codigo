@@ -35,8 +35,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =24;
-nel_y =24;
+nel_x =16;
+nel_y =16;
 
 % Other fixed parameters
 
@@ -296,6 +296,7 @@ parfor i=1:nfreq
             zeros(fat*dof,dof), zeros(fat*dof,fat*dof),lambda_y*eye(fat*dof,fat*dof)];
 
     % Equation 41
+    Lambda_R = sparse(Lambda_R);
     Lambda_L = Lambda_R';        
 
 
