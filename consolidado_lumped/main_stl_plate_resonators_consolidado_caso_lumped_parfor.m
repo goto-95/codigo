@@ -91,7 +91,8 @@ node_res_first =[node_res1,node_res2,node_res3,node_res4];
 
 %center node, where the resonator is attached
 [K_new, M_new, numberRes] = K_M_resonators(KG,MG,node_res_first,dof,GDof,kr,mr);
-
+K_new = sparse(K_new);
+M_new = sparse(M_new);
 
 %Subprogram for partitioning boundary and internal dofs
 subprogram_partitioningdofs
@@ -255,6 +256,7 @@ parfor i=1:nfreq
     %Until this point the index of D is in the original order - matrices K, M
     %Equation 32
     D_til = D+(1/(Lx*Ly))*Df;
+    D_till = sparse(D_til);
 
     %end Part 8
 

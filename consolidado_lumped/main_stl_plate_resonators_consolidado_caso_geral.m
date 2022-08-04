@@ -35,8 +35,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =4;
-nel_y =4;
+nel_x =16;
+nel_y =16;
 
 % Other fixed parameters
 
@@ -91,7 +91,8 @@ node_res_first =[node_res1,node_res2,node_res3,node_res4];
 
 %center node, where the resonator is attached
 [K_new, M_new, numberRes] = K_M_resonators(KG,MG,node_res_first,dof,GDof,kr,mr);
-
+K_new = sparse(K_new);
+M_new = sparse(M_new);
 
 %Subprogram for partitioning boundary and internal dofs
 subprogram_partitioningdofs
@@ -168,6 +169,7 @@ for i=1:nfreq
 
     %Dynamic stiffness matrix of the problem - plate with resonators
     D = K_new - w^2*M_new;
+%     D = sparse(D);
 
     % % Part 5 - FRF calculation, material in vaccum - OPTIONAL
     % % bare plate
@@ -255,6 +257,7 @@ for i=1:nfreq
     %Until this point the index of D is in the original order - matrices K, M
     %Equation 32
     D_til = D+(1/(Lx*Ly))*Df;
+    D_til = sparse(D_til);
 
     %end Part 8
 
@@ -306,7 +309,32 @@ for i=1:nfreq
 
     % Swicth between Not condensed problem and condensed problem
     % wfeproblemnotcondensed
-    wfeproblemdynamiccondensed
+    % wfeproblemdynamiccondensed
+    
+    % Dynamic condensed version of the WFE problem
+
+    %Dynamic condensation - Equation 34
+    %Fluid loading effects added
+    D_r_til = D_til_bb-D_til_bi*(D_til_ii\D_til_ib);
+    F_r_til = Fext_b - (D_til_bi/D_til_ii)*Fext_i;
+
+    %Equation 43
+    D_t = Lambda_L*D_r_til*Lambda_R;
+    e_t = Lambda_L*F_r_til;
+
+    %Solving - Equation 42
+
+    Sol = D_t\e_t;
+
+    %q = [qc,qi]
+    % the order here is (q1,q2,q3,q4,ql,qb,qr,qt)
+    %Equation 38
+    q_bound = Lambda_R*Sol;
+
+    %Recovering internal nodes
+    %Equation 
+
+    q_internal = (D_til_ii\Fext_i) -  (D_til_ii\D_til_ib)*q_bound;
 
     %Changing to the order of the original FE problem
     q_total = zeros(GDof+numberRes,1);
