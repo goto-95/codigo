@@ -1,5 +1,5 @@
 clear
-% close all
+close all
 clc
 
 %% This program calculates the displacements and the STL of a metamaterial plate 
@@ -26,17 +26,18 @@ tic
 %Paramaters changed for analysis
 
 % FREQUENCY VECTOR DATA
-fmin = 50; %[Hz]
+fmin = 20; %[Hz]
 df = 5; %[Hz]
 fmax = 6000; %[Hz]
 
-freq=fmin:df:fmax;
+% freq=fmin:df:fmax;
+freq = logspace( log10(fmin), log10(fmax), 2e3  );
 omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =16;
-nel_y =16;
+nel_x =20;
+nel_y =20;
 
 % Other fixed parameters
 
@@ -77,17 +78,17 @@ kircchoff_model
 
 % Updating K and M with resonators
 % 1 resonator case
-% [~,node_res_first]=min(sqrt(nodes(:,1).^2)+nodes(:,2).^2);
+[~,node_res_first]=min(sqrt(nodes(:,1).^2)+nodes(:,2).^2);
 
-% 4 resonators case
-%Nodes at 1/4 of the unit cell
-[node_res1, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==-Lx/4);
-[node_res2, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==-Lx/4);
-[node_res3, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==Lx/4);
-[node_res4, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==Lx/4);
-
-
-node_res_first =[node_res1,node_res2,node_res3,node_res4];
+% % 4 resonators case
+% %Nodes at 1/4 of the unit cell
+% [node_res1, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==-Lx/4);
+% [node_res2, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==-Lx/4);
+% [node_res3, ~] = find(nodes(:,1)==-Lx/4 & nodes(:,2)==Lx/4);
+% [node_res4, ~] = find(nodes(:,1)==Lx/4 & nodes(:,2)==Lx/4);
+% 
+% 
+% node_res_first =[node_res1,node_res2,node_res3,node_res4];
 
 %center node, where the resonator is attached
 [K_new, M_new, numberRes] = K_M_resonators(KG,MG,node_res_first,dof,GDof,kr,mr);
@@ -557,8 +558,8 @@ heatmap(m,n,log10(abs(W1_mn_interest./max_W1_mn)))
 %To be compared with figure 6b of the paper
 figure
 load f 
-% load uz_ref
-load uz_ref_4res
+load uz_ref
+% load uz_ref_4res
 loglog(freq,abs(disp),f,abs(uz_damp))
 title('Displacement at the center of the metamaterial plate')
 xlabel('Frequency [Hz]')
@@ -573,10 +574,10 @@ grid on
 figure
 semilogx(freq,STL)
 hold on
-% load f_ref_ 
-% load STL_ref
-load f_ref_4res
-load STL_ref_4res
+load f_ref 
+load STL_ref
+% load f_ref_4res
+% load STL_ref_4res
 semilogx(f,STL_damp)
 title('Sound Transmission Loss for a Metamaterial')
 legend('STL - WFE','Reference - \phi=0, \theta = 50 ')

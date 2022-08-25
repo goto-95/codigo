@@ -25,28 +25,28 @@ phi = deg2rad(0);
 P_inc=1; % Ampltude of incidence wave
 
 % DATA FOR RESONATORS - 1 resonator case (300Hz)
-% kr = 9.593e4; %[N/m]
-% mr = 0.027; %[kg]
+kr = 9.593e4; %[N/m]
+mr = 0.027; %[kg]
 
 % DATA FOR RESONATORS - 4 resonators case
-%fr1 = 250 Hz
-kr1 = 1.665495742683829e+04;
-mr1= 0.027/4;
-
-%fr2 =300 Hz
-kr2 = 9.593e4; %[N/m]
-mr2 = 0.027/4; %[kg]
-
-%fr3 =350 Hz
-kr3 = 3.264371655660304e+04;
-mr3 = 0.027/4;
-
-%fr4 =400 Hz
-kr4 = 4.263669101270603e+04;
-mr4 = 0.027/4;
-
-kr = [kr1,kr2,kr3,kr4];
-mr = [mr1,mr2,mr3,mr4];
+% %fr1 = 250 Hz
+% kr1 = 1.665495742683829e+04;
+% mr1= 0.027/4;
+% 
+% %fr2 =300 Hz
+% kr2 = 9.593e4; %[N/m]
+% mr2 = 0.027/4; %[kg]
+% 
+% %fr3 =350 Hz
+% kr3 = 3.264371655660304e+04;
+% mr3 = 0.027/4;
+% 
+% %fr4 =400 Hz
+% kr4 = 4.263669101270603e+04;
+% mr4 = 0.027/4;
+% 
+% kr = [kr1,kr2,kr3,kr4];
+% mr = [mr1,mr2,mr3,mr4];
 
 
 
