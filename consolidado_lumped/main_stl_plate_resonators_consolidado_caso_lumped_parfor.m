@@ -36,8 +36,8 @@ omega = 2*pi*freq; %[rad/s]
 nfreq = length(freq);
 
 % Number of elements
-nel_x =20;
-nel_y =20;
+nel_x =32;
+nel_y =32;
 
 % Other fixed parameters
 
