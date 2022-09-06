@@ -65,10 +65,13 @@ fprintf('-------------------------------------------------------\n')
 
 
 
-% Ploting
-% figure; semilogx( freq, STL_2, freq, STL_4, freq, STL_8, freq, STL_12, freq, STL_16,...
-%     freq, STL_20, freq, STL_24);
-% grid on;
+%% Ploting
+figure; semilogx( freq, stl_c1, freq, stl_c2, freq, stl_c3, freq, stl_c4, freq, stl_c5,...
+    freq, stl_c6, freq, stl_c7, freq, stl_c8, freq, stl_c9);
+grid on;
+legend('Mesh - 2x2', 'Mesh - 4x4', 'Mesh - 8x8', 'Mesh - 12x12', 'Mesh - 16x16', ...
+    'Mesh - 20x20', 'Mesh - 24x24', 'Mesh - 28x28', 'Mesh - 32x32')
+xlim([0 6e3])
 
 % figure; semilogx( freq, tau_2, freq, tau_4, freq, tau_8, freq, tau_12, freq, tau_16,...
 %     freq, tau_20, freq, tau_24);
