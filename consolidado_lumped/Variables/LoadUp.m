@@ -14,10 +14,9 @@ dabs = @(u,v) max(abs(u-v));
 rmse = @(u,v) ( abs( rms(v) - rms(u))/rms(u) )*100;
 
 % Loading the vectors
-% LoadVectors_N5;
-LoadVectors_N6;
-% LoadVectors_16x16_4res;
-% LoadVectors_N5_4res;
+LoadVectors_N5;
+% LoadVectors_N6;
+
 
 
 % Computing the differences
@@ -66,14 +65,34 @@ fprintf('-------------------------------------------------------\n')
 
 
 %% Ploting
-figure; semilogx( freq, stl_c1, freq, stl_c2, freq, stl_c3, freq, stl_c4, freq, stl_c5,...
+% STL Curves
+load f_ref 
+load STL_ref
+figure;
+semilogx(f,STL_damp)
+hold on;
+semilogx( freq, stl_c1, freq, stl_c2, freq, stl_c3, freq, stl_c4, freq, stl_c5,...
     freq, stl_c6, freq, stl_c7, freq, stl_c8, freq, stl_c9);
 grid on;
-legend('Mesh - 2x2', 'Mesh - 4x4', 'Mesh - 8x8', 'Mesh - 12x12', 'Mesh - 16x16', ...
+title('Sound Transmission Loss for a Metamaterial')
+xlabel('Frequency [Hz]')
+ylabel('STL [dB]')
+legend('Reference','Mesh - 2x2', 'Mesh - 4x4', 'Mesh - 8x8', 'Mesh - 12x12', 'Mesh - 16x16', ...
     'Mesh - 20x20', 'Mesh - 24x24', 'Mesh - 28x28', 'Mesh - 32x32')
 xlim([0 6e3])
 
-% figure; semilogx( freq, tau_2, freq, tau_4, freq, tau_8, freq, tau_12, freq, tau_16,...
-%     freq, tau_20, freq, tau_24);
-% grid on;
+%Displacement
+figure
+load f 
+load uz_ref
+loglog(f,abs(uz_damp));
+hold on;
+loglog( freq, abs(w_c1), freq, abs(w_c2), freq, abs(w_c3), freq, abs(w_c4), freq, abs(w_c5),...
+    freq, abs(w_c6), freq, abs(w_c7), freq, abs(w_c8), freq, abs(w_c9));
+grid on;
+title('Displacement at the center of the metamaterial plate')
+xlabel('Frequency [Hz]')
+ylabel('w [m]')
+legend('Reference','Mesh - 2x2', 'Mesh - 4x4', 'Mesh - 8x8', 'Mesh - 12x12', 'Mesh - 16x16', ...
+    'Mesh - 20x20', 'Mesh - 24x24', 'Mesh - 28x28', 'Mesh - 32x32')
 
